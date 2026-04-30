@@ -1,0 +1,364 @@
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_PROJECT_URL || "";
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error("Missing Supabase URL or Anon Key in environment variables");
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// Types for database tables
+export interface UserProfile {
+  id: string;
+  email: string;
+  name: string;
+  phone: string;
+  address: string;
+  profile_picture: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Order {
+  id: string;
+  user_id: string;
+  order_number: string;
+  total: number;
+  status: "pending" | "completed" | "cancelled";
+  items: OrderItem[];
+  created_at: string;
+  updated_at: string;
+}
+
+export interface OrderItem {
+  product_id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+export interface PaymentMethod {
+  id: string;
+  user_id: string;
+  card_name: string;
+  card_number: string;
+  expiry_date: string;
+  card_type: string;
+  created_at: string;
+}
+
+export interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string | null;
+  file_url: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Maswali {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  message: string;
+  created_at: string;
+}
+
+// Authentication helper functions
+export const auth = {
+  async signup(email: string, password: string, name: string) {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          display_name: name,
+        },
+      },
+    });
+    return { data, error };
+  },
+
+  async login(email: string, password: string) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    return { data, error };
+  },
+
+  async logout() {
+    const { error } = await supabase.auth.signOut();
+    return { error };
+  },
+
+  async getCurrentUser() {
+    const { data } = await supabase.auth.getUser();
+    return data.user;
+  },
+
+  async getSession() {
+    const { data } = await supabase.auth.getSession();
+    return data.session;
+  },
+
+  onAuthStateChange(callback: (user: any) => void) {
+    return supabase.auth.onAuthStateChange((_event, session) => {
+      callback(session?.user || null);
+    });
+  },
+};
+
+// User profile helper functions
+export const profiles = {
+  async getProfile(userId: string) {
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", userId)
+      .maybeSingle();
+    return { data, error };
+  },
+
+  async updateProfile(userId: string, updates: Partial<UserProfile>) {
+    const { data, error } = await supabase
+      .from("profiles")
+      .update(updates)
+      .eq("id", userId)
+      .select()
+      .single();
+    return { data, error };
+  },
+
+  async createProfile(profile: Omit<UserProfile, "created_at" | "updated_at">) {
+    const { data, error } = await supabase
+      .from("profiles")
+      .insert([profile])
+      .select()
+      .single();
+    return { data, error };
+  },
+};
+
+// Orders helper functions
+export const orders = {
+  async getOrders(userId: string) {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+    return { data, error };
+  },
+
+  async createOrder(order: Omit<Order, "id" | "created_at" | "updated_at">) {
+    const { data, error } = await supabase
+      .from("orders")
+      .insert([order])
+      .select()
+      .single();
+    return { data, error };
+  },
+
+  async updateOrder(orderId: string, updates: Partial<Order>) {
+    const { data, error } = await supabase
+      .from("orders")
+      .update(updates)
+      .eq("id", orderId)
+      .select()
+      .single();
+    return { data, error };
+  },
+};
+
+// Products helper functions
+export const products = {
+  async getAllProducts() {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .order("created_at", { ascending: false });
+    return { data, error };
+  },
+
+  async getProduct(productId: number) {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("id", productId)
+      .maybeSingle();
+    return { data, error };
+  },
+
+  async createProduct(
+    product: Omit<Product, "id" | "created_at" | "updated_at">,
+  ) {
+    const { data, error } = await supabase
+      .from("products")
+      .insert([product])
+      .select()
+      .single();
+    return { data, error };
+  },
+
+  async deleteProduct(productId: number) {
+    const { error } = await supabase
+      .from("products")
+      .delete()
+      .eq("id", productId);
+    return { error };
+  },
+};
+
+// Payment methods helper functions
+export const paymentMethods = {
+  async getPaymentMethods(userId: string) {
+    const { data, error } = await supabase
+      .from("payment_methods")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+    return { data, error };
+  },
+
+  async addPaymentMethod(method: Omit<PaymentMethod, "id" | "created_at">) {
+    const { data, error } = await supabase
+      .from("payment_methods")
+      .insert([method])
+      .select()
+      .single();
+    return { data, error };
+  },
+
+  async deletePaymentMethod(methodId: string) {
+    const { error } = await supabase
+      .from("payment_methods")
+      .delete()
+      .eq("id", methodId);
+    return { error };
+  },
+};
+
+// Maswali (Messages) helper functions
+export const maswali = {
+  async createMessage(message: Omit<Maswali, "id" | "created_at">) {
+    const { data, error } = await supabase
+      .from("maswali")
+      .insert([message])
+      .select()
+      .single();
+    return { data, error };
+  },
+
+  async getMessages() {
+    const { data, error } = await supabase
+      .from("maswali")
+      .select("*")
+      .order("created_at", { ascending: false });
+    return { data, error };
+  },
+
+  async deleteMessage(messageId: string) {
+    const { error } = await supabase
+      .from("maswali")
+      .delete()
+      .eq("id", messageId);
+    return { error };
+  },
+};
+
+// Storage helper functions for profile pictures and ebooks
+export const storage = {
+  async uploadProfilePicture(userId: string, file: File) {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `user_profiles/${userId}-${Date.now()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("Mkatoliki_products")
+      .upload(fileName, file, { upsert: true });
+
+    if (uploadError) return { url: null, error: uploadError };
+
+    const { data } = supabase.storage
+      .from("Mkatoliki_products")
+      .getPublicUrl(fileName);
+
+    return { url: data.publicUrl, error: null };
+  },
+
+  async getProfilePictureUrl(userId: string) {
+    const { data } = supabase.storage
+      .from("Mkatoliki_products")
+      .getPublicUrl(`user_profiles/${userId}`);
+    return data.publicUrl;
+  },
+
+  async uploadEbook(file: File, productName: string) {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${productName}-${Date.now()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("ebooks")
+      .upload(fileName, file);
+
+    if (uploadError) return { url: null, error: uploadError };
+
+    const { data } = supabase.storage.from("ebooks").getPublicUrl(fileName);
+
+    return { url: data.publicUrl, error: null };
+  },
+
+  getEbookDownloadUrl(filePath: string) {
+    const { data } = supabase.storage.from("ebooks").getPublicUrl(filePath);
+    return data.publicUrl;
+  },
+
+  async downloadEbook(filePath: string, fileName: string) {
+    const { data, error } = await supabase.storage
+      .from("ebooks")
+      .download(filePath);
+
+    if (error) return { error };
+
+    // Create a blob URL and trigger download
+    const url = URL.createObjectURL(data);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    return { error: null };
+  },
+
+  async uploadProductImage(file: File, productName: string) {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `product_images/${productName}-${Date.now()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("Mkatoliki_products")
+      .upload(fileName, file, { upsert: true });
+
+    if (uploadError) return { url: null, error: uploadError };
+
+    const { data } = supabase.storage
+      .from("Mkatoliki_products")
+      .getPublicUrl(fileName);
+
+    return { url: data.publicUrl, error: null };
+  },
+
+  getProductImageUrl(filePath: string) {
+    const { data } = supabase.storage
+      .from("Mkatoliki_products")
+      .getPublicUrl(filePath);
+    return data.publicUrl;
+  },
+};
