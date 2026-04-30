@@ -109,7 +109,7 @@ export function HomePage() {
             </span>
           </div>
 
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black mb-6 tracking-tight leading-tight">
+          <h2 className="text-2xl sm:text-1xl lg:text-2xl font-bold text-black mb-6 tracking-tight leading-tight">
             Pata Chakula cha Kiroho{" "}
             <span className="bg-gradient-to-r from-amber-700 to-yellow-700 bg-clip-text text-transparent">
               Na Imarika Kiimani
@@ -189,7 +189,7 @@ export function HomePage() {
 
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col items-center text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold text-black mb-4 tracking-tight">
+            <h2 className="text-2xl lg:text-2xl font-bold text-black mb-4 tracking-tight">
               Chakula cha Kiroho
             </h2>
             <p className="text-xl text-black max-w-2xl leading-relaxed">
@@ -284,7 +284,7 @@ export function HomePage() {
                 </span>
               </div>
 
-              <h2 className="text-5xl lg:text-6xl pt-4 font-bold text-black mb-8 tracking-tight leading-tight text-left">
+              <h2 className="text-2xl lg:text-2xl pt-4 font-bold text-black mb-8 tracking-tight leading-tight text-left">
                 Maswali Yanayoulizwa Mara kwa Mara
               </h2>
 
@@ -372,7 +372,7 @@ export function HomePage() {
                 </span>
               </div>
 
-              <h2 className="text-5xl lg:text-6xl pt-4 font-bold text-black mb-8 tracking-tight leading-tight text-left">
+              <h2 className="text-2xl lg:text-2xl pt-4 font-bold text-black mb-8 tracking-tight leading-tight text-left">
                 Wasiliana Nasi
               </h2>
 
