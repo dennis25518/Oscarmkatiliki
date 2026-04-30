@@ -3,6 +3,7 @@
 ## Prerequisites
 
 Before deploying to Vercel, ensure you have:
+
 - A Vercel account (https://vercel.com)
 - Your GitHub repository connected to Vercel
 - Supabase project credentials
@@ -50,6 +51,7 @@ vercel --prod
 ## Build Configuration
 
 The project uses the following build settings:
+
 - **Framework**: Vite (React)
 - **Build Command**: `npm run build`
 - **Dev Command**: `npm run dev`
@@ -66,7 +68,8 @@ These are defined in `vercel.json` and automatically detected by Vercel.
 
 ### Build Fails with Module Errors
 
-**Solution**: 
+**Solution**:
+
 1. Clear Vercel's build cache: Project Settings → Advanced → Clear Build Cache
 2. Redeploy
 3. Check that all dependencies are listed in `package.json`
@@ -74,12 +77,14 @@ These are defined in `vercel.json` and automatically detected by Vercel.
 ### Large Bundle Size Warning
 
 The application currently has a ~528KB JavaScript bundle. This is due to:
+
 - React + React DOM
 - Tailwind CSS
 - Icon library (react-icons)
 - Supabase client
 
 **Optimizations available** (if needed):
+
 - Implement code splitting for route-based chunks
 - Use dynamic imports for heavy components
 - Remove unused dependencies
@@ -99,6 +104,7 @@ npm run preview
 ## Monitoring Deployments
 
 After deployment:
+
 1. Check Vercel dashboard for successful deployment
 2. Visit your deployed URL to verify functionality
 3. Monitor for runtime errors in Vercel's Observability tools
@@ -107,6 +113,7 @@ After deployment:
 ## Database Setup
 
 Make sure your Supabase instance has the required tables:
+
 - `products`
 - `profiles`
 - `orders`
