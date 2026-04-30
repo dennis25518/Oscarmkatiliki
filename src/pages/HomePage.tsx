@@ -116,28 +116,28 @@ export function HomePage() {
             </span>
           </h2>
 
-          <p className="text-lg sm:text-xl lg:text-2xl text-black mb-10 leading-relaxed max-w-3xl mx-auto pb-4">
+          <p className="text-lg sm:text-xl lg:text-2xl text-black mb-8 leading-relaxed max-w-3xl mx-auto pb-4">
             Imarisha maisha yako ya sala popote ulipo. Kuza imani yako kwa kila
             kurasa unayosoma.
           </p>
 
-          <div className="flex flex-row gap-4 justify-center mb-16 flex-wrap">
+          <div className="flex flex-row gap-4 justify-center mb-12 flex-wrap">
             <a
               href="/#bidhaa"
-              className="px-8 py-4 bg-gradient-to-r from-amber-700 to-yellow-700 hover:from-amber-800 hover:to-yellow-800 text-white font-bold rounded-lg transition duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl inline-block"
+              className="px-8 py-3 bg-gradient-to-r from-amber-700 to-yellow-700 hover:from-amber-800 hover:to-yellow-800 text-white font-bold rounded-lg transition duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl inline-block text-sm"
             >
               Jipatie Nakala Yako
             </a>
             <a
               href="/register"
-              className="px-8 py-4 border-2 border-amber-700 text-black hover:bg-amber-50 font-bold rounded-lg transition duration-300 inline-block"
+              className="px-8 py-3 border-2 border-amber-700 text-black hover:bg-amber-50 font-bold rounded-lg transition duration-300 inline-block text-sm"
             >
               Jifunze Zaidi
             </a>
           </div>
 
-          {/* Profile Avatars and Reviews - Horizontal Layout */}
-          <div className="flex items-center justify-center gap-6 text-black">
+          {/* Profile Avatars and Reviews - Vertical Layout */}
+          <div className="flex flex-col items-center justify-center gap-4 text-black">
             {/* Profile Avatars with Wave Animation */}
             <div className="flex gap-2">
               {[
@@ -160,7 +160,7 @@ export function HomePage() {
             </div>
 
             {/* Reviews Section */}
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col items-center gap-2">
               <span className="text-sm font-medium">
                 Ungana na Wakristo 10K+
               </span>
