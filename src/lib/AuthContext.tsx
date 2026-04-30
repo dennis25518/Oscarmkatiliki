@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     return () => {
-      unsubscribe.data?.subscription?.unsubscribe();
+      unsubscribe?.unsubscribe?.();
     };
   }, []);
 
