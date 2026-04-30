@@ -2,10 +2,5 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "framework": "vite",
-  "nodeVersion": "20.x",
-  "env": {
-    "VITE_SUPABASE_PROJECT_URL": "@vite_supabase_project_url",
-    "VITE_SUPABASE_ANON_KEY": "@vite_supabase_anon_key"
-  }
+  "framework": "vite"
 }
