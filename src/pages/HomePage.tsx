@@ -51,7 +51,7 @@ export function HomePage() {
     setSubmitMessage("");
 
     try {
-      const { data, error } = await maswaliApi.createMessage({
+      const { error } = await maswaliApi.createMessage({
         name: contactForm.name,
         email: contactForm.email,
         phone: contactForm.phone || null,

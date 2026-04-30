@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface CursorPosition {
   x: number;
@@ -10,7 +10,7 @@ export function CustomCursor() {
   const circleRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState<CursorPosition>({ x: 0, y: 0 });
   const circlePos = useRef<CursorPosition>({ x: 0, y: 0 });
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number>(undefined);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {

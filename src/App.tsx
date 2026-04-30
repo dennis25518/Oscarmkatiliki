@@ -16,6 +16,7 @@ import { CheckoutPage } from "./pages/CheckoutPage";
 import { UserProfilePage } from "./pages/UserProfilePage";
 import { ProductsCategoryPage } from "./pages/ProductsCategoryPage";
 import { AuthProvider, useAuth } from "./lib/AuthContext";
+import type { JSX } from "react";
 import "./App.css";
 
 function ProtectedRoute({ element }: { element: JSX.Element }) {

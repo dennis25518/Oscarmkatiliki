@@ -16,13 +16,11 @@ export function CartPage() {
   const [productDetails, setProductDetails] = React.useState<
     Record<number, Product>
   >({});
-  const [loading, setLoading] = React.useState(true);
   const isFirstRender = React.useRef(true);
 
   // Fetch all products and load cart
   React.useEffect(() => {
     const loadData = async () => {
-      setLoading(true);
       try {
         // Fetch all products for suggestions and cart lookup
         const { data: productsData, error: productsError } =
@@ -40,8 +38,6 @@ export function CartPage() {
         }
       } catch (err) {
         console.error("Error fetching products:", err);
-      } finally {
-        setLoading(false);
       }
     };
 

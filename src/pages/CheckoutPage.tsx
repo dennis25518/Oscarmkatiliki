@@ -1,13 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  FiArrowLeft,
-  FiUser,
-  FiMail,
-  FiPhone,
-  FiMapPin,
-  FiDownload,
-} from "react-icons/fi";
+import { FiArrowLeft, FiUser, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 import { useAuth } from "../lib/AuthContext";
 import {
   orders,
@@ -122,7 +115,7 @@ export function CheckoutPage() {
       });
 
       // Create order in Supabase
-      const { data: orderData, error: orderError } = await orders.createOrder({
+      const { error: orderError } = await orders.createOrder({
         user_id: user.id,
         order_number: `ORD-${Date.now()}`,
         total: calculateTotal(),
