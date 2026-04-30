@@ -89,7 +89,6 @@ export function ProductsCategoryPage() {
                 <FiArrowLeft size={20} className="text-gray-700" />
               </button>
               <div>
-                
                 <h2 className="text-3xl font-bold text-gray-900">
                   Mafundisho ya Dini
                 </h2>
@@ -187,7 +186,7 @@ export function ProductsCategoryPage() {
                     className="group bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-xl transition duration-300 overflow-hidden block no-underline flex flex-col"
                   >
                     {/* Product Image Container */}
-                    <div className="relative w-full h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
+                    <div className="relative w-full h-40 bg-gray-100 overflow-hidden flex items-center justify-center">
                       {product.image ? (
                         <img
                           src={product.image}
@@ -200,13 +199,13 @@ export function ProductsCategoryPage() {
                     </div>
 
                     {/* Product Info Container */}
-                    <div className="flex-1 p-4 flex flex-col justify-between">
+                    <div className="flex-1 p-3 flex flex-col justify-between">
                       {/* Top Section */}
-                      <div className="space-y-2 mb-3">
+                      <div className="space-y-1 mb-2">
                         <p className="text-xs font-semibold text-amber-700 uppercase tracking-wider">
                           Digital Book
                         </p>
-                        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-snug">
+                        <h3 className="text-xs font-semibold text-gray-900 line-clamp-2 leading-tight">
                           {product.name}
                         </h3>
                         {product.description && (
@@ -217,8 +216,8 @@ export function ProductsCategoryPage() {
                       </div>
 
                       {/* Bottom Section - Price & Button */}
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                        <span className="text-base font-bold text-gray-900">
+                      <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                        <span className="text-xs font-bold text-gray-900">
                           {product.price.toLocaleString()} TSh
                         </span>
                         <button
@@ -226,7 +225,7 @@ export function ProductsCategoryPage() {
                             e.preventDefault();
                             addToCart(product.id);
                           }}
-                          className="px-4 py-2 bg-amber-700 hover:bg-amber-800 active:bg-amber-900 text-white font-semibold text-sm rounded-md transition duration-200 whitespace-nowrap"
+                          className="px-3 py-1.5 bg-amber-700 hover:bg-amber-800 active:bg-amber-900 text-white font-semibold text-xs rounded-md transition duration-200 whitespace-nowrap"
                         >
                           ADD
                         </button>
