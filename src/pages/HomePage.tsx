@@ -109,12 +109,12 @@ export function HomePage() {
             </span>
           </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black mb-6 tracking-tight leading-tight">
+          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black mb-6 tracking-tight leading-tight">
             Pata Chakula cha Kiroho{" "}
             <span className="bg-gradient-to-r from-amber-700 to-yellow-700 bg-clip-text text-transparent">
               Na Imarika Kiimani
             </span>
-          </h1>
+          </h2>
 
           <p className="text-lg sm:text-xl lg:text-2xl text-black mb-10 leading-relaxed max-w-3xl mx-auto pb-4">
             Imarisha maisha yako ya sala popote ulipo. Kuza imani yako kwa kila
