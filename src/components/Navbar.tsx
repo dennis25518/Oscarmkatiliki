@@ -110,13 +110,12 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo - Left */}
-            <a href="/" className="flex items-center space-x-2 flex-shrink-0">
-              <div className="w-8 h-8 bg-gradient-to-r from-amber-700 to-amber-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xs">OM</span>
-              </div>
-              <span className="text-xl font-bold text-black hidden sm:inline">
-                Oscar Mkatoliki
-              </span>
+            <a href="/" className="flex items-center flex-shrink-0">
+              <img
+                src="/Asset/official web logo.png"
+                alt="Oscar Mkatoliki"
+                className="h-24 w-auto"
+              />
             </a>
 
             {/* Navigation Links - Center */}

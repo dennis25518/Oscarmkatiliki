@@ -7,7 +7,9 @@ import {
   FiEyeOff,
   FiUser,
   FiArrowLeft,
+  FiPhone,
 } from "react-icons/fi";
+import { FcGoogle } from "react-icons/fc";
 import { auth, profiles } from "../lib/supabaseClient";
 
 export function RegisterPage() {
@@ -15,6 +17,7 @@ export function RegisterPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
   });
@@ -64,7 +67,7 @@ export function RegisterPage() {
           id: signUpData.user.id,
           email: formData.email,
           name: formData.name,
-          phone: "",
+          phone: formData.phone,
           address: "",
           profile_picture: null,
         });
@@ -76,6 +79,21 @@ export function RegisterPage() {
         }
 
         navigate("/login");
+      }
+    } catch (err: any) {
+      setError(err.message || "Hitilafu isiyojulikana iliotokea");
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    setError("");
+    setLoading(true);
+    try {
+      const { error: googleError } = await auth.signInWithGoogle();
+      if (googleError) {
+        setError(googleError.message || "Kuandika kwa Google kumefailiwa");
+        setLoading(false);
       }
     } catch (err: any) {
       setError(err.message || "Hitilafu isiyojulikana iliotokea");
@@ -174,6 +192,31 @@ export function RegisterPage() {
                 </div>
               </div>
 
+              {/* Phone Number */}
+              <div>
+                <label
+                  htmlFor="phone"
+                  className="block text-left text-xs font-semibold text-black mb-1 uppercase tracking-wide"
+                >
+                  Nambari ya Simu
+                </label>
+                <div className="relative">
+                  <FiPhone
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    size={18}
+                  />
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-md bg-white text-sm text-black focus:ring-2 focus:ring-amber-700 focus:border-amber-700 outline-none transition placeholder-gray-400"
+                    placeholder="+255 712 345 678"
+                  />
+                </div>
+              </div>
+
               {/* Password */}
               <div>
                 <label
@@ -251,12 +294,31 @@ export function RegisterPage() {
                   loading ||
                   !formData.name ||
                   !formData.email ||
+                  !formData.phone ||
                   !formData.password ||
                   !formData.confirmPassword
                 }
                 className="w-full px-4 py-2 bg-amber-700 hover:bg-amber-600 text-white font-bold rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed text-sm mt-4"
               >
                 {loading ? "Inakusajili..." : "Fungua Akaunti"}
+              </button>
+
+              {/* Divider */}
+              <div className="flex items-center gap-3 my-4">
+                <div className="flex-1 border-t border-gray-300"></div>
+                <span className="text-gray-500 text-xs">AU</span>
+                <div className="flex-1 border-t border-gray-300"></div>
+              </div>
+
+              {/* Google Sign Up Button */}
+              <button
+                type="button"
+                onClick={handleGoogleSignUp}
+                disabled={loading}
+                className="w-full px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed text-sm flex items-center justify-center gap-2"
+              >
+                <FcGoogle size={18} />
+                Fungua Akaunti kwa Google
               </button>
             </form>
 

@@ -107,6 +107,16 @@ export const auth = {
     return data.session;
   },
 
+  async signInWithGoogle() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/`,
+      },
+    });
+    return { data, error };
+  },
+
   onAuthStateChange(callback: (user: any) => void) {
     const { data } = supabase.auth.onAuthStateChange((_event, session) => {
       callback(session?.user || null);

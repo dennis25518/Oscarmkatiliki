@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowLeft } from "react-icons/fi";
+import { FcGoogle } from "react-icons/fc";
 import { auth } from "../lib/supabaseClient";
 
 export function LoginPage() {
@@ -27,6 +28,21 @@ export function LoginPage() {
 
       if (data.user) {
         navigate("/");
+      }
+    } catch (err: any) {
+      setError(err.message || "Hitilafu isiyojulikana iliotokea");
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setError("");
+    setLoading(true);
+    try {
+      const { error: googleError } = await auth.signInWithGoogle();
+      if (googleError) {
+        setError(googleError.message || "Kuingia kwa Google kukashindwa");
+        setLoading(false);
       }
     } catch (err: any) {
       setError(err.message || "Hitilafu isiyojulikana iliotokea");
@@ -151,6 +167,24 @@ export function LoginPage() {
                 className="w-full px-4 py-2 bg-amber-700 hover:bg-amber-600 text-white font-bold rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed text-sm mt-4"
               >
                 {loading ? "Inakuingia..." : "Ingia"}
+              </button>
+
+              {/* Divider */}
+              <div className="flex items-center gap-3 my-4">
+                <div className="flex-1 border-t border-gray-300"></div>
+                <span className="text-gray-500 text-xs">AU</span>
+                <div className="flex-1 border-t border-gray-300"></div>
+              </div>
+
+              {/* Google Sign In Button */}
+              <button
+                type="button"
+                onClick={handleGoogleSignIn}
+                disabled={loading}
+                className="w-full px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed text-sm flex items-center justify-center gap-2"
+              >
+                <FcGoogle size={18} />
+                Ingia kwa Google
               </button>
             </form>
 
