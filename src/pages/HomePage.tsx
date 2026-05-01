@@ -4,6 +4,7 @@ import {
   maswali as maswaliApi,
 } from "../lib/supabaseClient";
 import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
+import Footer from "../components/Footer";
 
 interface Product {
   id: number;
@@ -285,12 +286,14 @@ export function HomePage() {
               </div>
 
               <h2 className="text-2xl lg:text-2xl pt-4 font-bold text-black mb-8 tracking-tight leading-tight text-left">
-                Maswali Yanayoulizwa Mara kwa Mara
+                Maswali ya Mara kwa Mara
               </h2>
 
               <p className="text-lg text-gray-700 pt-4 leading-relaxed mb-6 font-medium text-left">
-                Kila kitu unachohitaji kujua kuhusu Kitabu cha Dini, Maombi, na
-                Sacramentals yetu na jinsi ya kumiliki.
+                Karibu kwenye kituo chetu cha msaada. Hapa tumekuekea majibu ya
+                maswali yanayoulizwa mara nyingi kuhusu jinsi ya kupata vitabu
+                vyetu vya kidijitali (Softcopy) ili uweze kuanza safari yako ya
+                kiroho bila kikwazo.
               </p>
 
               <p className="text-base text-gray-500 leading-relaxed mb-12 pt-4 text-left">
@@ -311,30 +314,30 @@ export function HomePage() {
             <div className="border-2 border-gray-200 rounded-2xl overflow-hidden">
               {[
                 {
+                  question: "Je, ninawezaje kununua kitabu kwenye website hii?",
+                  answer:
+                    "Ndio ni rahisi! Chagua Kitabu au Sala unayotaka, tambua bei, kisha fuata hatua za malipo. Tunakubali mtandao wa simu na kadi za benki. Baada ya malipo, utapokea hazina yako mara moja.",
+                },
+                {
+                  question: "Je, nitakipataje kitabu changu baada ya malipo?",
+                  answer:
+                    "Vitabu vyote vinatumwa kidigital kwenye muundo wa PDF baada ya kukamilisha malipo.  Kitabu kitahifadhiwa kwenye simu au kompyuta yako na utaweza kukisoma wakati wowote.",
+                },
+                {
+                  question: "Je, naweza kulipia kwa kutumia mtandao wowote?",
+                  answer:
+                    "Ndiyo, mfumo wetu unakubali mitandao yote ya simu (M-Pesa, Tigo Pesa, Airtel Money, HaloPesa) pamoja na kadi za benki zote. Una uhuru wa kuchagua njia inayokufaa zaidi. ",
+                },
+                {
                   question:
-                    "Jinsi gani ya kununua Kitabu au Maombi yenye Dini?",
+                    "Kwa nini ni lazima nijisajili kwanza kabla ya kununua?",
                   answer:
-                    "Ni rahisi! Chagua Kitabu au Maombi unayotaka, tambua bei, kisha fuata hatua za malipo. Tunakubali mtandao wa simu, kadi za benki, na njia nyingine salama za malipo. Baada ya malipo, utapokea zako mara moja.",
+                    "Kujisajili kunatupa uwezo wa kukutambua kama mteja wetu, kuweka rekodi ya ununuzi wako, na kutoa huduma bora zaidi. Pia, itakuwezesha kufuatilia ununuzi wako na kupata msaada wa haraka ikiwa utahitaji.",
                 },
                 {
-                  question: "Kitabu cha Dini kinatumwa kwa njia gani?",
+                  question: "Je, mna vitabu vya nakala ngumu (Hardcopy)?",
                   answer:
-                    "Vitabu vyote vinatumwa kwa digital PDF au EPUB baada ya kumaliza kulipa. Kama unataka nuskhah ya karatasi, toa ombi la kuchapisha na tutaleta iwe kwako karibu mwishoni mwa wiki.",
-                },
-                {
-                  question: "Je, ni nini na karibu na Sacramentals?",
-                  answer:
-                    "Sacramentals ni vitu vya kidini kama rosary, kitabu cha maombi, na madini ya kuzuu. Tunatoa kila kitu na wezesha ili kujenga haba yako ya kidini. Kila sacramental imechaguliwa kwa makini kwa ajili yako.",
-                },
-                {
-                  question: "Naweza kurudi Kitabu au kumfuta agizo lango?",
-                  answer:
-                    "Ndiyo! Kama sio sawa na Kitabu au Maombi baada ya kupokea, toa ombi la kurudi ndani ya siku 14 tutarudisha pesa yako. Hii ni karabuni yenye upendo kwa wagombewa wangu.",
-                },
-                {
-                  question: "Kasi gani ya kutumwa na kufika Sacramental yangu?",
-                  answer:
-                    "Vitabu vya digital hukuja mara moja baada ya malipo. Vile vya karatasi hukuja ndani ya siku 5-7. Kuhusu Sacramentals, kila kitu kina sababu yake na hukuja kwa kasi na imani.",
+                    "Kwa sasa, tunazingatia kutoa vitabu vya kidigital (Softcopy) ili kuhakikisha upatikanaji rahisi na haraka kwa wateja wetu popote walipo. Hata hivyo, tunapokea maombi ya vitabu vya nakala ngumu (Hardcopy) na tunaweza kuangalia uwezekano wa kutoa huduma hiyo katika siku zijazo.",
                 },
               ].map((faq, index) => (
                 <details
@@ -399,7 +402,7 @@ export function HomePage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-black mb-1">Simu</h3>
-                    <p className="text-gray-600">+255 123 456 789</p>
+                    <p className="text-gray-600">+255 753 095 190 </p>
                   </div>
                 </div>
 
@@ -513,35 +516,7 @@ export function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-amber-200 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <p className="text-sm text-black/60">
-              &copy; 2024 Oscar Mkatoliki. Haki zote zimehifadhiwa.
-            </p>
-            <div className="flex gap-6">
-              <a
-                href="#"
-                className="text-black hover:text-amber-700 transition"
-              >
-                <span className="text-xl">𝕏</span>
-              </a>
-              <a
-                href="#"
-                className="text-black hover:text-amber-700 transition"
-              >
-                <span className="text-xl">f</span>
-              </a>
-              <a
-                href="#"
-                className="text-black hover:text-amber-700 transition"
-              >
-                <span className="text-xl">in</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

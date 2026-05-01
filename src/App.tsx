@@ -15,6 +15,8 @@ import { CartPage } from "./pages/CartPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
 import { UserProfilePage } from "./pages/UserProfilePage";
 import { ProductsCategoryPage } from "./pages/ProductsCategoryPage";
+import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
+import { TermsOfServicePage } from "./pages/TermsOfServicePage";
 import { AuthProvider, useAuth } from "./lib/AuthContext";
 import type { JSX } from "react";
 import "./App.css";
@@ -63,6 +65,8 @@ function AppContent() {
           path="/profile"
           element={<ProtectedRoute element={<UserProfilePage />} />}
         />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms-of-service" element={<TermsOfServicePage />} />
       </Routes>
     </>
   );

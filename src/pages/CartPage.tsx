@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FiTrash2, FiMinus, FiPlus } from "react-icons/fi";
 import { products as productsAPI } from "../lib/supabaseClient";
 import type { Product } from "../lib/supabaseClient";
+import Footer from "../components/Footer";
 
 interface CartItem {
   id: number;
@@ -315,37 +316,7 @@ export function CartPage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-amber-200 py-8 px-4 sm:px-6 lg:px-8 mt-20">
-        <div className="max-w-7xl mx-auto">
-          <div>
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-sm text-black/60">
-                &copy; 2024 Oscar Mkatoliki. Haki zote zimehifadhiwa.
-              </p>
-              <div className="flex gap-6">
-                <a
-                  href="#"
-                  className="text-black hover:text-amber-700 transition"
-                >
-                  <span className="text-xl">𝕏</span>
-                </a>
-                <a
-                  href="#"
-                  className="text-black hover:text-amber-700 transition"
-                >
-                  <span className="text-xl">f</span>
-                </a>
-                <a
-                  href="#"
-                  className="text-black hover:text-amber-700 transition"
-                >
-                  <span className="text-xl">in</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

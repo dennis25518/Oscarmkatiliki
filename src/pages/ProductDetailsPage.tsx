@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import * as React from "react";
 import { products as productsAPI } from "../lib/supabaseClient";
 import type { Product } from "../lib/supabaseClient";
+import Footer from "../components/Footer";
 
 export function ProductDetailsPage() {
   const { id } = useParams();
@@ -262,37 +263,7 @@ export function ProductDetailsPage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-amber-200 py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div>
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-sm text-black/60">
-                &copy; 2024 Oscar Mkatoliki. Haki zote zimehifadhiwa.
-              </p>
-              <div className="flex gap-6">
-                <a
-                  href="#"
-                  className="text-black hover:text-amber-700 transition"
-                >
-                  <span className="text-xl">𝕏</span>
-                </a>
-                <a
-                  href="#"
-                  className="text-black hover:text-amber-700 transition"
-                >
-                  <span className="text-xl">f</span>
-                </a>
-                <a
-                  href="#"
-                  className="text-black hover:text-amber-700 transition"
-                >
-                  <span className="text-xl">in</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

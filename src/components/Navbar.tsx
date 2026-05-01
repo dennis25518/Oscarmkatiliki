@@ -5,6 +5,10 @@ import {
   FiBox,
   FiMenu,
   FiX,
+  FiHome,
+  FiPackage,
+  FiHelpCircle,
+  FiMail,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import * as React from "react";
@@ -249,7 +253,13 @@ export function Navbar() {
           <div className="fixed left-0 top-0 h-screen w-64 bg-white shadow-lg z-50 lg:hidden overflow-y-auto">
             {/* Header with Close Button */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <h2 className="text-xl font-bold text-black">Menu</h2>
+              <a href="/" className="flex items-center flex-shrink-0">
+                <img
+                  src="/Asset/official web logo.png"
+                  alt="Oscar Mkatoliki"
+                  className="h-16 w-auto"
+                />
+              </a>
               <button
                 onClick={closeMobileMenu}
                 className="text-black hover:text-amber-700 transition"
@@ -263,30 +273,34 @@ export function Navbar() {
               <a
                 href="/#nyumbani"
                 onClick={() => handleMobileNavClick("/#nyumbani")}
-                className="block px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium"
+                className="block px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium flex items-center space-x-3"
               >
-                Nyumbani
+                <FiHome size={20} className="text-amber-700" />
+                <span>Nyumbani</span>
               </a>
               <a
                 href="/#bidhaa"
                 onClick={() => handleMobileNavClick("/#bidhaa")}
-                className="block px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium"
+                className="block px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium flex items-center space-x-3"
               >
-                Bidhaa
+                <FiPackage size={20} className="text-amber-700" />
+                <span>Bidhaa</span>
               </a>
               <a
                 href="/#maswali"
                 onClick={() => handleMobileNavClick("/#maswali")}
-                className="block px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium"
+                className="block px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium flex items-center space-x-3"
               >
-                Maswali
+                <FiHelpCircle size={20} className="text-amber-700" />
+                <span>Maswali</span>
               </a>
               <a
                 href="/#mawasiliano"
                 onClick={() => handleMobileNavClick("/#mawasiliano")}
-                className="block px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium"
+                className="block px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium flex items-center space-x-3"
               >
-                Mawasiliano
+                <FiMail size={20} className="text-amber-700" />
+                <span>Mawasiliano</span>
               </a>
             </nav>
 
@@ -302,9 +316,9 @@ export function Navbar() {
                     navigate("/cart");
                     closeMobileMenu();
                   }}
-                  className="block px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium flex items-center space-x-2 relative"
+                  className="block px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium flex items-center space-x-3 relative"
                 >
-                  <FiShoppingCart size={18} />
+                  <FiShoppingCart size={20} className="text-amber-700" />
                   <span>Cart</span>
                   {cartCount > 0 && (
                     <span className="absolute right-4 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
@@ -317,9 +331,9 @@ export function Navbar() {
                     navigate("/profile");
                     closeMobileMenu();
                   }}
-                  className="w-full text-left px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium flex items-center space-x-2"
+                  className="w-full text-left px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium flex items-center space-x-3"
                 >
-                  <FiUser size={18} />
+                  <FiUser size={20} className="text-amber-700" />
                   <span>Profile</span>
                 </button>
                 <button
@@ -327,16 +341,16 @@ export function Navbar() {
                     navigate("/profile?tab=orders");
                     closeMobileMenu();
                   }}
-                  className="w-full text-left px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium flex items-center space-x-2"
+                  className="w-full text-left px-4 py-3 text-black hover:bg-amber-50 rounded-lg transition font-medium flex items-center space-x-3"
                 >
-                  <FiBox size={18} />
+                  <FiBox size={20} className="text-amber-700" />
                   <span>Orders</span>
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition font-medium flex items-center space-x-2"
+                  className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition font-medium flex items-center space-x-3"
                 >
-                  <FiLogOut size={18} />
+                  <FiLogOut size={20} />
                   <span>Logout</span>
                 </button>
               </nav>
