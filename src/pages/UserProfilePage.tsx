@@ -47,13 +47,9 @@ interface Order {
 
 interface PaymentMethod {
   id: string;
-  type?: "card" | "mobile";
-  card_name?: string;
-  card_number?: string;
-  expiry_date?: string;
-  card_type?: string;
-  mobile_provider?: string;
-  mobile_number?: string;
+  user_id?: string;
+  network_name: string;
+  network_number: string | null;
 }
 
 type TabType = "account" | "orders" | "payments" | "address";
@@ -85,17 +81,10 @@ export function UserProfilePage() {
   );
   const [editingProfile, setEditingProfile] = React.useState(false);
   const [showAddPayment, setShowAddPayment] = React.useState(false);
-  const [paymentType, setPaymentType] = React.useState<"card" | "mobile">(
-    "card",
-  );
 
   const [newPayment, setNewPayment] = React.useState({
-    card_name: "",
-    card_number: "",
-    expiry_date: "",
-    card_type: "Credit Card",
-    mobile_provider: "M-Pesa",
-    mobile_number: "",
+    network_name: "M-Pesa",
+    network_number: "",
   });
 
   // Load user data from Supabase on mount
@@ -152,6 +141,15 @@ export function UserProfilePage() {
           await paymentMethodsApi.getPaymentMethods(user.id);
         if (paymentsError) throw paymentsError;
         setPaymentMethods(paymentsData || []);
+
+        // Pre-populate form with existing payment method
+        if (paymentsData && paymentsData.length > 0) {
+          const existingPayment = paymentsData[0];
+          setNewPayment({
+            network_name: existingPayment.network_name || "M-Pesa",
+            network_number: existingPayment.network_number || "",
+          });
+        }
       } catch (err: any) {
         console.error("Load error:", err);
         setError(err.message || "Hitilafu ya kupakia data");
@@ -224,8 +222,8 @@ export function UserProfilePage() {
   };
 
   const handleAddPayment = async () => {
-    if (!user || !newPayment.card_name || !newPayment.card_number) {
-      setError("Tafadhali jaza sehemu zote");
+    if (!user || !newPayment.network_number) {
+      setError("Tafadhali ingiza nambari ya simu");
       return;
     }
 
@@ -235,10 +233,8 @@ export function UserProfilePage() {
 
       const { error: addError } = await paymentMethodsApi.addPaymentMethod({
         user_id: user.id,
-        card_name: newPayment.card_name,
-        card_number: newPayment.card_number.slice(-4),
-        expiry_date: newPayment.expiry_date,
-        card_type: newPayment.card_type,
+        network_name: newPayment.network_name,
+        network_number: newPayment.network_number,
       });
 
       if (addError) throw addError;
@@ -250,12 +246,8 @@ export function UserProfilePage() {
       setPaymentMethods(paymentsData || []);
 
       setNewPayment({
-        card_name: "",
-        card_number: "",
-        expiry_date: "",
-        card_type: "Credit Card",
-        mobile_provider: "M-Pesa",
-        mobile_number: "",
+        network_name: "M-Pesa",
+        network_number: "",
       });
       setShowAddPayment(false);
     } catch (err: any) {
@@ -732,204 +724,53 @@ export function UserProfilePage() {
 
                 {showAddPayment ? (
                   <div className="space-y-4 border-t border-gray-200 pt-6">
-                    {/* Payment Type Selector */}
-                    <div className="mb-6">
-                      <label className="block text-sm font-semibold text-black mb-3 uppercase">
-                        Njia ya Malipo
-                      </label>
-                      <div className="flex gap-4">
-                        <label
-                          className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition"
-                          style={{
-                            borderColor:
-                              paymentType === "card" ? "#b45309" : "#e5e7eb",
-                            backgroundColor:
-                              paymentType === "card" ? "#fef3c7" : "white",
-                          }}
-                        >
-                          <input
-                            type="radio"
-                            name="paymentType"
-                            value="card"
-                            checked={paymentType === "card"}
-                            onChange={(e) =>
-                              setPaymentType(
-                                e.target.value as "card" | "mobile",
-                              )
-                            }
-                            className="w-4 h-4 accent-amber-700"
-                          />
-                          <span className="font-semibold text-black">
-                            Njia ya Benki
-                          </span>
-                        </label>
-                        <label
-                          className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition"
-                          style={{
-                            borderColor:
-                              paymentType === "mobile" ? "#b45309" : "#e5e7eb",
-                            backgroundColor:
-                              paymentType === "mobile" ? "#fef3c7" : "white",
-                          }}
-                        >
-                          <input
-                            type="radio"
-                            name="paymentType"
-                            value="mobile"
-                            checked={paymentType === "mobile"}
-                            onChange={(e) =>
-                              setPaymentType(
-                                e.target.value as "card" | "mobile",
-                              )
-                            }
-                            className="w-4 h-4 accent-amber-700"
-                          />
-                          <span className="font-semibold text-black">
-                            Njia ya Simu
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-
-                    {/* Card Payment Form */}
-                    {paymentType === "card" && (
-                      <>
-                        <div>
-                          <label className="block text-sm text-left font-semibold text-black mb-2 uppercase">
-                            Jina la Mtumiaji
-                          </label>
-                          <input
-                            type="text"
-                            value={newPayment.card_name}
-                            onChange={(e) =>
-                              setNewPayment({
-                                ...newPayment,
-                                card_name: e.target.value,
-                              })
-                            }
-                            placeholder="Jina la karata"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-200 transition"
-                          />
-                        </div>
-                      </>
-                    )}
-
                     {/* Mobile Money Form */}
-                    {paymentType === "mobile" && (
-                      <>
-                        <div>
-                          <label className="block text-sm text-left font-semibold text-black mb-2 uppercase">
-                            Chagua Mtandao
-                          </label>
-                          <select
-                            value={newPayment.mobile_provider}
-                            onChange={(e) =>
-                              setNewPayment({
-                                ...newPayment,
-                                mobile_provider: e.target.value,
-                              })
-                            }
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-200 transition"
-                          >
-                            <option>M-Pesa</option>
-                            <option>Halo Pesa</option>
-                            <option>Airtel Money</option>
-                            <option>TIGO Pesa</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label className="block text-sm text-left font-semibold text-black mb-2 uppercase">
-                            Namba ya Simu
-                          </label>
-                          <div className="relative">
-                            <span className="absolute left-4 top-3 text-gray-600 font-semibold">
-                              +255
-                            </span>
-                            <input
-                              type="tel"
-                              value={newPayment.mobile_number}
-                              onChange={(e) =>
-                                setNewPayment({
-                                  ...newPayment,
-                                  mobile_number: e.target.value.replace(
-                                    /\D/g,
-                                    "",
-                                  ),
-                                })
-                              }
-                              placeholder="700000000"
-                              maxLength={9}
-                              className="w-full pl-16 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-200 transition"
-                            />
-                          </div>
-                          <p className="text-xs text-gray-600 mt-1">
-                            Ingiza tarakimu 9 za simu bila +255
-                          </p>
-                        </div>
-                      </>
-                    )}
-
-                    {/* Card Payment Form - Rest of fields */}
-                    {paymentType === "card" && (
-                      <>
-                        <div>
-                          <label className="block text-sm text-left font-semibold text-black mb-2 uppercase">
-                            Akaunti Namba
-                          </label>
-                          <input
-                            type="text"
-                            value={newPayment.card_number}
-                            onChange={(e) =>
-                              setNewPayment({
-                                ...newPayment,
-                                card_number: e.target.value.replace(/\s/g, ""),
-                              })
-                            }
-                            placeholder="1234-5678-9012-3456"
-                            maxLength={16}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-200 transition"
-                          />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm text-left font-semibold text-black mb-2 uppercase">
-                              Tarehe ya Kuishia
-                            </label>
-                            <input
-                              type="text"
-                              value={newPayment.expiry_date}
-                              onChange={(e) =>
-                                setNewPayment({
-                                  ...newPayment,
-                                  expiry_date: e.target.value,
-                                })
-                              }
-                              placeholder="MM/YY"
-                              maxLength={5}
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-200 transition"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm text-left font-semibold text-black mb-2 uppercase">
-                              Aina
-                            </label>
-                            <select
-                              value={newPayment.card_type}
-                              onChange={(e) =>
-                                setNewPayment({
-                                  ...newPayment,
-                                  card_type: e.target.value,
-                                })
-                              }
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-200 transition"
-                            >
-                              <option>Credit Card</option>
-                              <option>Debit Card</option>
-                            </select>
-                          </div>
-                        </div>
-                      </>
-                    )}
+                    <div>
+                      <label className="block text-sm text-left font-semibold text-black mb-2 uppercase">
+                        Chagua Mtandao
+                      </label>
+                      <select
+                        value={newPayment.network_name}
+                        onChange={(e) =>
+                          setNewPayment({
+                            ...newPayment,
+                            network_name: e.target.value,
+                          })
+                        }
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-200 transition"
+                      >
+                        <option>M-Pesa</option>
+                        <option>Halo Pesa</option>
+                        <option>Airtel Money</option>
+                        <option>TIGO Pesa</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm text-left font-semibold text-black mb-2 uppercase">
+                        Namba ya Simu
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-4 top-3 text-gray-600 font-semibold">
+                          +255
+                        </span>
+                        <input
+                          type="tel"
+                          value={newPayment.network_number}
+                          onChange={(e) =>
+                            setNewPayment({
+                              ...newPayment,
+                              network_number: e.target.value.replace(/\D/g, ""),
+                            })
+                          }
+                          placeholder="700000000"
+                          maxLength={9}
+                          className="w-full pl-16 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-200 transition"
+                        />
+                      </div>
+                      <p className="text-xs text-gray-600 mt-1">
+                        Ingiza tarakimu 9 za simu bila +255
+                      </p>
+                    </div>
                     <div className="flex gap-3 pt-4 border-t border-gray-200">
                       <button
                         onClick={handleAddPayment}
@@ -941,14 +782,9 @@ export function UserProfilePage() {
                       <button
                         onClick={() => {
                           setShowAddPayment(false);
-                          setPaymentType("card");
                           setNewPayment({
-                            card_name: "",
-                            card_number: "",
-                            expiry_date: "",
-                            card_type: "Credit Card",
-                            mobile_provider: "M-Pesa",
-                            mobile_number: "",
+                            network_name: "M-Pesa",
+                            network_number: "",
                           });
                         }}
                         className="flex-1 px-6 py-3 border-2 border-gray-300 text-black hover:bg-gray-50 font-semibold rounded-lg transition"
@@ -965,52 +801,37 @@ export function UserProfilePage() {
                           size={48}
                           className="text-gray-400 mx-auto mb-3"
                         />
-                        <p className="text-gray-600">
-                          Huwezi kuongeza njia ya malipo
+                        <p className="text-gray-600 mb-4">
+                          Hajajaweka njia ya malipo
                         </p>
                       </div>
                     ) : (
                       <div className="space-y-4">
                         {paymentMethods.map((payment) => (
                           <div
-                            key={payment.id}
+                            key={payment.id || "payment-method"}
                             className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:shadow-md transition bg-gradient-to-r from-amber-50 to-transparent"
                           >
                             <div className="flex items-center gap-4">
                               <div className="w-12 h-12 bg-gradient-to-br from-amber-700 to-amber-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
-                                {payment.type === "mobile" ? "📱" : "🏧"}
+                                📱
                               </div>
                               <div>
-                                {payment.type === "mobile" ? (
-                                  <>
-                                    <p className="font-semibold text-black">
-                                      {payment.mobile_provider}
-                                    </p>
-                                    <p className="text-sm text-gray-600">
-                                      +255{payment.mobile_number?.slice(-7)}
-                                    </p>
-                                    <span className="inline-block text-xs font-semibold text-green-700 mt-1">
-                                      Simu ya Pesa
-                                    </span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <p className="font-semibold text-black">
-                                      {payment.card_name}
-                                    </p>
-                                    <p className="text-sm text-gray-600">
-                                      •••• {payment.card_number?.slice(-4)} •{" "}
-                                      {payment.expiry_date}
-                                    </p>
-                                    <span className="inline-block text-xs font-semibold text-amber-700 mt-1">
-                                      {payment.card_type}
-                                    </span>
-                                  </>
-                                )}
+                                <p className="font-semibold text-black">
+                                  {payment.network_name}
+                                </p>
+                                <p className="text-sm text-gray-600">
+                                  +255{payment.network_number?.slice(-7)}
+                                </p>
+                                <span className="inline-block text-xs font-semibold text-green-700 mt-1">
+                                  Simu ya Pesa
+                                </span>
                               </div>
                             </div>
                             <button
-                              onClick={() => removePaymentMethod(payment.id)}
+                              onClick={() =>
+                                removePaymentMethod(payment.id || "")
+                              }
                               disabled={saving}
                               className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition disabled:opacity-50"
                             >

@@ -4,6 +4,7 @@ import {
   maswali as maswaliApi,
 } from "../lib/supabaseClient";
 import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import Footer from "../components/Footer";
 
 interface Product {
@@ -177,6 +178,140 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* SPECIAL DEALS SECTION - Saut Ya Mama */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-amber-50 via-orange-50 to-yellow-50 relative overflow-hidden">
+        {/* Glowing Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/2 left-0 w-96 h-96 bg-amber-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+          <div
+            className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"
+            style={{ animationDelay: "1s" }}
+          ></div>
+        </div>
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          {/* Badge */}
+          <div className="flex justify-center mb-8">
+            <span className="px-4 py-2 rounded-full bg-amber-100 border border-amber-400 text-amber-800 text-xs font-bold uppercase tracking-widest inline-block flex items-center gap-2">
+              <span className="inline-block w-2 h-2 bg-amber-700 rounded-full animate-pulse"></span>
+              PATA NAKALA YAKO SASA
+            </span>
+          </div>
+
+          {/* Main Deal Card */}
+          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border-4 border-amber-200 relative">
+            {/* Glowing Border Effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 opacity-0 hover:opacity-20 transition duration-300"></div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 md:p-12 relative z-10">
+              {/* Left - Book Image */}
+              <div className="flex items-center justify-center">
+                <div className="relative">
+                  {/* Glowing Frame */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-yellow-400 rounded-xl blur-xl opacity-50 animate-pulse"></div>
+
+                  {/* Book Image Container */}
+                  <div className="relative bg-white rounded-xl shadow-2xl p-6 transform hover:scale-105 transition duration-300">
+                    <div className="w-64 h-96 bg-gradient-to-br from-amber-100 to-yellow-100 rounded-lg flex items-center justify-center overflow-hidden">
+                      <img
+                        src={
+                          products.find(
+                            (p) =>
+                              p.name.toLowerCase().includes("sauti") ||
+                              p.name.toLowerCase().includes("mama"),
+                          )?.image || ""
+                        }
+                        alt="Sauti Ya Mama"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400"%3E%3Crect fill="%23fef3c7" width="300" height="400"/%3E%3Ctext x="50%25" y="50%25" font-size="24" fill="%23b45309" text-anchor="middle" dominant-baseline="middle" font-weight="bold"%3E📕 Sauti Ya Mama %3C/text%3E%3C/svg%3E';
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right - Description */}
+              <div className="flex flex-col justify-center">
+                <div className="mb-6">
+                  <h3 className="text-3xl text-left font-bold text-transparent bg-gradient-to-r from-amber-700 to-yellow-700 bg-clip-text mb-2">
+                    Sauti Ya Mama
+                  </h3>
+                  <p className="text-black text-lg text-left font-semibold mb-4">
+                    Mwezi wa Bikira Maria - Mei 2026
+                  </p>
+                  <p className="text-black text-left text-base leading-relaxed mb-6">
+                    Safari ya kipekee ya kiroho inayokupeleka ndani kabisa ya
+                    moyo wa mwanamke aliyebadilisha historia ya ulimwengu.
+                    Kitabu hiki cha sauti ya Mama kimeandaliwa kwa ustadi ili
+                    kukupa uelewa mpana wa nafasi ya Bikira Maria katika mpango
+                    wa wokovu.
+                  </p>
+
+                  {/* Features */}
+                  <div className="space-y-2 mb-6">
+                    <div className="flex items-center gap-2 text-black">
+                      <span className="text-xl">✨</span>
+                      <span>Maisha na Fadhila za Maria</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-black">
+                      <span className="text-xl">🙏</span>
+                      <span>Uchambuzi wa Dogma za Kanisa</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-black">
+                      <span className="text-xl">🌍</span>
+                      <span>Matokeo na Ujumbe wa Mbinguni</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-black">
+                      <span className="text-xl">📖</span>
+                      <span>Sala, Rozari, at Litania Takatifu</span>
+                    </div>
+                  </div>
+
+                  {/* Price and Button - Horizontal Layout */}
+                  <div className="flex gap-4 items-center">
+                    <div className="flex-shrink-0">
+                      <p className="text-3xl font-bold text-amber-700">
+                        Tsh{" "}
+                        {(
+                          products.find(
+                            (p) =>
+                              p.name.toLowerCase().includes("sauti") ||
+                              p.name.toLowerCase().includes("mama"),
+                          )?.price || 5000
+                        ).toLocaleString("sw-TZ")}
+                      </p>
+                    </div>
+
+                    {/* Call to Action Button */}
+                    <button
+                      onClick={() => {
+                        const sautYaMamaProduct = products.find(
+                          (p) =>
+                            p.name.toLowerCase().includes("sauti") ||
+                            p.name.toLowerCase().includes("mama"),
+                        );
+                        if (sautYaMamaProduct) {
+                          addToCart(sautYaMamaProduct.id);
+                        }
+                      }}
+                      className="flex-1 py-4 px-6 bg-gradient-to-r from-amber-700 to-yellow-700 hover:from-amber-800 hover:to-yellow-800 text-white font-bold text-lg rounded-xl transition duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl flex items-center justify-center gap-2"
+                    >
+                      <AiOutlineShoppingCart size={24} />
+                      Nunua Sasa
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* End of Main Deal Card */}
+          </div>
+        </div>
+      </section>
+
       {/* Featured Products Section */}
       <section id="bidhaa" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="text-center max-w-5xl mx-auto py-12 relative z-10">
@@ -252,7 +387,7 @@ export function HomePage() {
                         }}
                         className="px-3 py-1.5 bg-amber-700 hover:bg-amber-800 active:bg-amber-900 text-white font-semibold text-xs rounded-md transition duration-200"
                       >
-                        ADD
+                        Nunua
                       </button>
                     </div>
                   </div>

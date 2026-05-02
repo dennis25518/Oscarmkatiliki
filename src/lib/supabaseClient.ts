@@ -40,13 +40,10 @@ export interface OrderItem {
 }
 
 export interface PaymentMethod {
-  id: string;
+  id?: string;
   user_id: string;
-  card_name: string;
-  card_number: string;
-  expiry_date: string;
-  card_type: string;
-  created_at: string;
+  network_name: string;
+  network_number: string | null;
 }
 
 export interface Product {
@@ -232,18 +229,37 @@ export const paymentMethods = {
     const { data, error } = await supabase
       .from("payment_methods")
       .select("*")
-      .eq("user_id", userId)
-      .order("created_at", { ascending: false });
+      .eq("user_id", userId);
     return { data, error };
   },
 
-  async addPaymentMethod(method: Omit<PaymentMethod, "id" | "created_at">) {
-    const { data, error } = await supabase
+  async addPaymentMethod(method: Omit<PaymentMethod, "id">) {
+    // Check if user already has a payment method
+    const { data: existingMethods, error: fetchError } = await supabase
       .from("payment_methods")
-      .insert([method])
-      .select()
-      .single();
-    return { data, error };
+      .select("id")
+      .eq("user_id", method.user_id);
+
+    if (fetchError) return { data: null, error: fetchError };
+
+    if (existingMethods && existingMethods.length > 0) {
+      // Update existing record
+      const { data, error } = await supabase
+        .from("payment_methods")
+        .update(method)
+        .eq("user_id", method.user_id)
+        .select()
+        .single();
+      return { data, error };
+    } else {
+      // Create new record
+      const { data, error } = await supabase
+        .from("payment_methods")
+        .insert([method])
+        .select()
+        .single();
+      return { data, error };
+    }
   },
 
   async deletePaymentMethod(methodId: string) {

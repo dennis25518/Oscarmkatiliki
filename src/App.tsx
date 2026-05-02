@@ -17,6 +17,7 @@ import { UserProfilePage } from "./pages/UserProfilePage";
 import { ProductsCategoryPage } from "./pages/ProductsCategoryPage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { TermsOfServicePage } from "./pages/TermsOfServicePage";
+import { SadakaPage } from "./pages/SadakaPage";
 import { AuthProvider, useAuth } from "./lib/AuthContext";
 import type { JSX } from "react";
 import "./App.css";
@@ -60,6 +61,10 @@ function AppContent() {
         <Route
           path="/checkout"
           element={<ProtectedRoute element={<CheckoutPage />} />}
+        />
+        <Route
+          path="/sadaka"
+          element={<ProtectedRoute element={<SadakaPage />} />}
         />
         <Route
           path="/profile"

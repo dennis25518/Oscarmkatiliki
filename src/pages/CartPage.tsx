@@ -241,7 +241,9 @@ export function CartPage() {
                   </div>
                   <div className="flex justify-between text-gray-700">
                     <span>Jumla ya Gharama:</span>
-                    <span className="font-semibold">Tsh {total}</span>
+                    <span className="font-semibold">
+                      Tsh {total.toLocaleString("sw-TZ")}
+                    </span>
                   </div>
                 </div>
 
